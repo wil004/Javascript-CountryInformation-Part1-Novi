@@ -3,11 +3,12 @@ import axios from 'axios';
 const countriesDiv = document.getElementById('countries');
 
 
-const landenKaart = ['Bouvet Island', 'Heard Island and McDonald Islands', 'South Georgia and the South Sandwich Islands',
-    'Pitcairn', 'French Southern Territories', 'United States Minor Outlying Islands', 'Vatican City',
-    'Cocos (Keeling) Islands', 'Antarctica', 'Bhutan', 'Guyana', 'Réunion', 'Comoros', 'Fiji', 'Djibouti',
+const landenKaart = [ 'Heard Island and McDonald Islands', 'South Georgia and the South Sandwich Islands',
+    'French Southern Territories', 'United States Minor Outlying Islands',
+    'Pitcairn', 'Vatican City',
+    'Cocos (Keeling) Islands', 'Antarctica', 'Zimbabwe', 'Bhutan', 'Guyana', 'Réunion', 'Comoros', 'Fiji', 'Djibouti',
     'Swaziland', 'Cyprus', 'Mauritius', 'Haiti', 'Belgium', 'Bolivia (Plurinational State of)', 'Tunisia'
-    , 'Burundi', 'Benin', 'Rwanda', 'Guinea', 'Zimbabwe'
+    , 'Burundi', 'Benin', 'Rwanda', 'Guinea','Bouvet Island'
 ]
 
 
@@ -37,10 +38,10 @@ async function getCountry(countries) {
 
         const printInputCountries = (countries) => {
             const countryArrayObjects = [];
-            for (let i = 0; i < countries.length; i++) {
-                for (let j = 0; j < sortedCountries.length; j++) {
-                    if (countries[i] === sortedCountries[j].name) {
-                        countryArrayObjects.push(sortedCountries[j])
+            for (let i = 0; i < sortedCountries.length; i++) {
+                for (let j = 0; j < countries.length; j++) {
+                    if (sortedCountries[i].name === countries[j]) {
+                        countryArrayObjects.push(sortedCountries[i])
                     }
                 }
             }
@@ -48,7 +49,7 @@ async function getCountry(countries) {
         }
 
         const newCountries = printInputCountries(countries);
-
+        console.log(newCountries);
 
 
         //De countryListNumber variabele is het indexnummer van de desbetreffende createCountryList div.
