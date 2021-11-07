@@ -1,0 +1,51 @@
+#countries {
+    background-color: #d7d7d7;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    max-width: 1900px;
+}
+
+#countryDiv {
+    border: 1px solid black;
+}
+
+.Africa {
+    color: #5575c0;
+}
+
+.Asia {
+    color: #d04e5b;
+}
+
+.Europe {
+    color: #fdd335;
+}
+
+.Oceania {
+    color: #a553b9;
+}
+.Antarctic{
+    color: gray;
+}
+
+.NorthAmerica {
+    color: #4c814b;
+}
+
+.SouthAmerica {
+    color: #6ac386;
+}
+img {
+    margin-right: 20px;
+}
+
+.countryFlex {
+    font-weight: normal;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#uniekeId9 {
+    padding-right: 200px;
+    padding-left: 30px;
+}
