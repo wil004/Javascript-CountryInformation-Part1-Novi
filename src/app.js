@@ -12,6 +12,11 @@ const landenKaart = [ 'Heard Island and McDonald Islands', 'South Georgia and th
 ]
 
 
+const randomCountries = ['Peru', 'Italy', 'Germany', 'Poland', 'Finland', 'China', 'Indonesia', 'Argentina', 'Brazil',
+'Belarus', 'Turkey', 'Netherlands', 'France', 'Spain', 'Portugal', 'Switzerland', 'Greece', 'Norway','Ireland',
+'Hungary', 'Thailand', 'Vietnam', 'Mongolia', 'Australia', 'Ghana', 'Canada', 'Mexico']
+
+// Een functie om een array met landen te printen!
 
 async function getCountry(countries) {
 
@@ -48,14 +53,18 @@ async function getCountry(countries) {
             return countryArrayObjects
         }
 
+
+
+
         const newCountries = printInputCountries(countries);
-        console.log(newCountries);
 
 
         //De countryListNumber variabele is het indexnummer van de desbetreffende createCountryList div.
         let countryListNumber = 0;
 
         //Een functie om een div te maken die een lijst met 9 landen heeft.
+
+
         function countryList(i) {
             const createCountryList = [];
             createCountryList[i] = document.createElement('div');
@@ -125,12 +134,13 @@ async function getCountry(countries) {
                 /* maakt een div met een lijst van 9 landen */
                 countryList(i);
                 countryListId[i] = document.getElementById('uniekeId' + i);
-                countryListNumber = i
+                countryListNumber = i;
             }
 
             //maakt een div waar je het land en titel in stopt.
             countryFlagAndTitle(i, newCountries);
             countryFlagAndTitleId[i] = document.getElementById(individualCountryIdCreator[i][0] + i);
+
 
             //maakt een div waar de populatie in komt te staan!
             populationBox(i, countryListNumber);
@@ -176,4 +186,181 @@ async function getCountry(countries) {
 
 }
 
+
+//Een functie om alle landen mee te printen!
+
+async function getAllCountries() {
+
+    try {
+        const result = await axios.get('https://restcountries.com/v2/all');
+
+        const allObjects = result.data;
+
+       const allObjectsSorted = allObjects.sort(function(a,b) {
+            return a.population - b.population
+        })
+
+
+        const allCountriesDiv = document.getElementById('allCountries');
+        const makeCountryList = () => {
+           const list1 = document.createElement('ul');
+           list1.setAttribute('id', 'list1');
+           allCountriesDiv.appendChild(list1);
+            const list2 = document.createElement('ul');
+            list2.setAttribute('id', 'list2');
+            allCountriesDiv.appendChild(list2);
+            const list3 = document.createElement('ul');
+            list3.setAttribute('id', 'list3');
+            allCountriesDiv.appendChild(list3);
+            const list4 = document.createElement('ul');
+            list4.setAttribute('id', 'list4');
+            allCountriesDiv.appendChild(list4);
+            const list5 = document.createElement('ul');
+            list5.setAttribute('id', 'list5');
+            allCountriesDiv.appendChild(list5);
+
+            const listNameAndFlag = [];
+            const listPopulation = [];
+            const images = [];
+            const names = [];
+            const population = [];
+            const region = [];
+            const subregion = [];
+
+
+            function colorCountriesPerContinent(region, i, subregion) {
+                if (region[i] === 'Africa') {
+                    listNameAndFlag[i].setAttribute('class', region[i]);
+                } else if (region[i] === 'Asia') {
+                    listNameAndFlag[i].setAttribute('class', region[i]);
+                } else if (region[i] === 'Europe') {
+                    listNameAndFlag[i].setAttribute('class', region[i]);
+                } else if (region[i].includes('Antarctic') || region[i] === 'Polar') {
+                    listNameAndFlag[i].setAttribute('class', 'Antarctic');
+                } else if (region[i] === 'Oceania') {
+                    listNameAndFlag[i].setAttribute('class', region[i]);
+                } else if (region[i] === 'Americas') {
+                    if (subregion[i].includes('South')) {
+                        listNameAndFlag[i].setAttribute('class', 'SouthAmerica');
+                    } else if (subregion[i].includes('North') || subregion[i] === 'Caribbean') {
+                        listNameAndFlag[i].setAttribute('class', 'NorthAmerica');
+                    }
+                    else {
+                        listNameAndFlag[i].setAttribute('class', 'NorthAmerica')
+                    }
+                }
+            }
+
+            for (let i = 0; i < allObjectsSorted.length; i++) {
+                if (i < (allObjectsSorted.length / 5)) {
+                   images[i] = document.createElement('img');
+                   images[i].setAttribute('src', allObjectsSorted[i].flag);
+                   images[i].setAttribute('width', '50');
+                   images[i].setAttribute('height', '30');
+                   names[i] = document.createElement('h4');
+                    names[i].textContent = allObjectsSorted[i].name;
+                    listNameAndFlag[i] = document.createElement('li');
+                    list1.appendChild(listNameAndFlag[i])
+                    listNameAndFlag[i].appendChild(images[i])
+                    listNameAndFlag[i].appendChild(names[i])
+                    listNameAndFlag[i].setAttribute('style', 'display: flex; align-items:center; margin-bottom: -25px;')
+                    population[i] = document.createElement('p');
+                    population[i].textContent = allObjectsSorted[i].name + ' has a total population of: ' + allObjectsSorted[i].population + ' people!';
+                    listPopulation[i] = document.createElement('li');
+                    list1.appendChild(listPopulation[i])
+                    listPopulation[i].appendChild(population[i]);
+
+                }
+                else if (i >= (allObjectsSorted.length / 5) && i < ((allObjectsSorted.length / 5) * 2)) {
+                    images[i] = document.createElement('img');
+                    images[i].setAttribute('src', allObjectsSorted[i].flag);
+                    images[i].setAttribute('width', '50');
+                    images[i].setAttribute('height', '30');
+                    names[i] = document.createElement('h4');
+                    names[i].textContent = allObjectsSorted[i].name;
+                    listNameAndFlag[i] = document.createElement('li');
+                    list2.appendChild(listNameAndFlag[i])
+                    listNameAndFlag[i].appendChild(images[i])
+                    listNameAndFlag[i].appendChild(names[i])
+                    listNameAndFlag[i].setAttribute('style', 'display: flex; align-items:center; margin-bottom: -25px;')
+                    population[i] = document.createElement('p');
+                    population[i].textContent = allObjectsSorted[i].name + ' has a total population of: ' + allObjectsSorted[i].population + ' people!';
+                    listPopulation[i] = document.createElement('li');
+                    list2.appendChild(listPopulation[i])
+                    listPopulation[i].appendChild(population[i]);
+
+                }  else if (i >= ((allObjectsSorted.length / 5) * 2) && i < ((allObjectsSorted.length / 5) * 3)) {
+                    images[i] = document.createElement('img');
+                    images[i].setAttribute('src', allObjectsSorted[i].flag);
+                    images[i].setAttribute('width', '50');
+                    images[i].setAttribute('height', '30');
+                    names[i] = document.createElement('h4');
+                    names[i].textContent = allObjectsSorted[i].name;
+                    listNameAndFlag[i] = document.createElement('li');
+                    list3.appendChild(listNameAndFlag[i])
+                    listNameAndFlag[i].appendChild(images[i])
+                    listNameAndFlag[i].appendChild(names[i])
+                    listNameAndFlag[i].setAttribute('style', 'display: flex; align-items:center; margin-bottom: -25px;')
+                    population[i] = document.createElement('p');
+                    population[i].textContent = allObjectsSorted[i].name + ' has a total population of: ' + allObjectsSorted[i].population + ' people!';
+                    listPopulation[i] = document.createElement('li');
+                    list3.appendChild(listPopulation[i])
+                    listPopulation[i].appendChild(population[i]);
+
+                }
+                else if (i >= ((allObjectsSorted.length / 5) * 3) && i < ((allObjectsSorted.length / 5) * 4)) {
+                    images[i] = document.createElement('img');
+                    images[i].setAttribute('src', allObjectsSorted[i].flag);
+                    images[i].setAttribute('width', '50');
+                    images[i].setAttribute('height', '30');
+                    names[i] = document.createElement('h4');
+                    names[i].textContent = allObjectsSorted[i].name;
+                    listNameAndFlag[i] = document.createElement('li');
+                    list4.appendChild(listNameAndFlag[i])
+                    listNameAndFlag[i].appendChild(images[i])
+                    listNameAndFlag[i].appendChild(names[i])
+                    listNameAndFlag[i].setAttribute('style', 'display: flex; align-items:center; margin-bottom: -25px;')
+                    population[i] = document.createElement('p');
+                    population[i].textContent = allObjectsSorted[i].name + ' has a total population of: ' + allObjectsSorted[i].population + ' people!';
+                    listPopulation[i] = document.createElement('li');
+                    list4.appendChild(listPopulation[i])
+                    listPopulation[i].appendChild(population[i]);
+
+                }
+                else {
+                    images[i] = document.createElement('img');
+                    images[i].setAttribute('src', allObjectsSorted[i].flag);
+                    images[i].setAttribute('width', '50');
+                    images[i].setAttribute('height', '30');
+                    names[i] = document.createElement('h4');
+                    names[i].textContent = allObjectsSorted[i].name;
+                    listNameAndFlag[i] = document.createElement('li');
+                    list5.appendChild(listNameAndFlag[i])
+                    listNameAndFlag[i].appendChild(images[i])
+                    listNameAndFlag[i].appendChild(names[i])
+                    listNameAndFlag[i].setAttribute('style', 'display: flex; align-items:center; margin-bottom: -25px;')
+                    population[i] = document.createElement('p');
+                    population[i].textContent = allObjectsSorted[i].name + ' has a total population of: ' + allObjectsSorted[i].population + ' people!';
+                    listPopulation[i] = document.createElement('li');
+                    list5.appendChild(listPopulation[i])
+                    listPopulation[i].appendChild(population[i]);
+
+                }
+                region[i] = allObjectsSorted[i].region
+                subregion[i] = allObjectsSorted[i].subregion
+                colorCountriesPerContinent(region, i, subregion)
+
+
+            }
+        }
+        makeCountryList();
+
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 getCountry(landenKaart)
+
+getAllCountries()
+/* Een functie die alle landen uitprint!!! */
