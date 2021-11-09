@@ -1,17 +1,5 @@
 import axios from 'axios';
 
-
-function printWorldMap() {
-    const worldMap = document.getElementById('worldMap');
-   // worldMap.src = 'https://github.com/hogeschoolnovi/frontend-javascript-country-information-prt2/blob/master/src/assets/screenshot.png'
-// worldmapImage.setAttribute('src', 'assets/world_map.png')
-
-    worldMap.setAttribute('src', 'assets/world_map.png');
-}
-
-
-printWorldMap();
-
 const countriesDiv = document.getElementById('countries');
 
 
@@ -37,9 +25,14 @@ async function getCountry(countries) {
 
         //de allCountries functie maakt een array met objecten gesorteerd op populatie.
 
-        const allCountries = result.data;
-
-        const sortedCountries = allCountries.sort(function(a,b) {
+        const allCountries = (result) => {
+            const allCountries = [];
+            for (let i = 0; i < result.data.length; i++) {
+                allCountries.push(result.data[i]);
+            }
+            return allCountries
+        }
+        const sortedCountries = allCountries(result).sort(function(a,b) {
             return a.population - b.population;
         })
 
@@ -64,7 +57,7 @@ async function getCountry(countries) {
 
 
         const newCountries = printInputCountries(countries);
-console.log(newCountries)
+
 
         //De countryListNumber variabele is het indexnummer van de desbetreffende createCountryList div.
         let countryListNumber = 0;
@@ -78,6 +71,7 @@ console.log(newCountries)
             createCountryList[i].setAttribute('id', 'uniekeId' + i);
             createCountryList[i].setAttribute('style', 'margin-top: 30px; margin-bottom: 30px;')
             countriesDiv.appendChild(createCountryList[i]);
+
         }
 
         // Een functie om de vlag en titel in een div te stoppen zodat je er een flexbox van kunt maken.
