@@ -6,6 +6,16 @@
     max-width: 1900px;
 }
 
+#allCountries {
+    display: flex;
+    justify-content: space-around;
+    background-color: #d0d0d0;
+}
+
+#allCountries2 {
+    background-color: #d0d0d0;
+}
+
 #countryDiv {
     border: 1px solid black;
 }
@@ -36,6 +46,11 @@
 .SouthAmerica {
     color: #6ac386;
 }
+#header {
+    margin-right: 20px;
+    margin-bottom: 150px;
+}
+
 img {
     margin-right: 20px;
 }
@@ -50,11 +65,7 @@ img {
     padding-left: 30px;
 }
 
-#allCountries {
-    display: flex;
-    justify-content: space-around;
-    background-color: #d0d0d0;
-}
+
 
 
 
@@ -64,4 +75,10 @@ ul {
 
 li {
     list-style-type: none;
+}
+
+#list1Short {
+    width: 100%;
+    column-count: 3;
+    margin-top: 50px;
 }
