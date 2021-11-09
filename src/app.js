@@ -1,5 +1,17 @@
 import axios from 'axios';
 
+
+function printWorldMap() {
+    const worldMap = document.getElementById('worldMap');
+   // worldMap.src = 'https://github.com/hogeschoolnovi/frontend-javascript-country-information-prt2/blob/master/src/assets/screenshot.png'
+// worldmapImage.setAttribute('src', 'assets/world_map.png')
+
+    worldMap.setAttribute('src', 'assets/world_map.png');
+}
+
+
+printWorldMap();
+
 const countriesDiv = document.getElementById('countries');
 
 
@@ -25,14 +37,9 @@ async function getCountry(countries) {
 
         //de allCountries functie maakt een array met objecten gesorteerd op populatie.
 
-        const allCountries = (result) => {
-            const allCountries = [];
-            for (let i = 0; i < result.data.length; i++) {
-                allCountries.push(result.data[i]);
-            }
-            return allCountries
-        }
-        const sortedCountries = allCountries(result).sort(function(a,b) {
+        const allCountries = result.data;
+
+        const sortedCountries = allCountries.sort(function(a,b) {
             return a.population - b.population;
         })
 
@@ -57,7 +64,7 @@ async function getCountry(countries) {
 
 
         const newCountries = printInputCountries(countries);
-
+console.log(newCountries)
 
         //De countryListNumber variabele is het indexnummer van de desbetreffende createCountryList div.
         let countryListNumber = 0;
@@ -71,7 +78,6 @@ async function getCountry(countries) {
             createCountryList[i].setAttribute('id', 'uniekeId' + i);
             createCountryList[i].setAttribute('style', 'margin-top: 30px; margin-bottom: 30px;')
             countriesDiv.appendChild(createCountryList[i]);
-
         }
 
         // Een functie om de vlag en titel in een div te stoppen zodat je er een flexbox van kunt maken.
@@ -290,8 +296,6 @@ async function getAllCountries() {
                 region[i] = allObjectsSorted[i].region
                 subregion[i] = allObjectsSorted[i].subregion
                 colorCountriesPerContinent(region, i, subregion)
-
-
             }
         }
         makeCountryList();
@@ -301,7 +305,94 @@ async function getAllCountries() {
     }
 }
 
-getCountry(landenKaart)
+/* A short function for the getAllCountries function (created with column-count in css)*/
 
-getAllCountries()
+async function getAllCountriesShort() {
+
+    try {
+        const result = await axios.get('https://restcountries.com/v2/all');
+
+        const allObjects = result.data;
+
+        const allObjectsSorted = allObjects.sort(function(a,b) {
+            return a.population - b.population
+        })
+
+
+        const allCountriesDiv = document.getElementById('allCountries2');
+        const makeCountryList = () => {
+            const list1 = document.createElement('ul');
+            list1.setAttribute('id', 'list1Short');
+            allCountriesDiv.appendChild(list1);
+
+            const listNameAndFlag = [];
+            const listPopulation = [];
+            const images = [];
+            const names = [];
+            const population = [];
+            const region = [];
+            const subregion = [];
+
+
+            function colorCountriesPerContinent(region, i, subregion) {
+                if (region[i] === 'Africa') {
+                    listNameAndFlag[i].setAttribute('class', region[i]);
+                } else if (region[i] === 'Asia') {
+                    listNameAndFlag[i].setAttribute('class', region[i]);
+                } else if (region[i] === 'Europe') {
+                    listNameAndFlag[i].setAttribute('class', region[i]);
+                } else if (region[i].includes('Antarctic') || region[i] === 'Polar') {
+                    listNameAndFlag[i].setAttribute('class', 'Antarctic');
+                } else if (region[i] === 'Oceania') {
+                    listNameAndFlag[i].setAttribute('class', region[i]);
+                } else if (region[i] === 'Americas') {
+                    if (subregion[i].includes('South')) {
+                        listNameAndFlag[i].setAttribute('class', 'SouthAmerica');
+                    } else if (subregion[i].includes('North') || subregion[i] === 'Caribbean') {
+                        listNameAndFlag[i].setAttribute('class', 'NorthAmerica');
+                    }
+                    else {
+                        listNameAndFlag[i].setAttribute('class', 'NorthAmerica')
+                    }
+                }
+            }
+
+            for (let i = 0; i < allObjectsSorted.length; i++) {
+                images[i] = document.createElement('img');
+                images[i].setAttribute('src', allObjectsSorted[i].flag);
+                images[i].setAttribute('width', '50');
+                images[i].setAttribute('height', '30');
+                names[i] = document.createElement('h4');
+                names[i].textContent = allObjectsSorted[i].name;
+                listNameAndFlag[i] = document.createElement('li');
+                list1.appendChild(listNameAndFlag[i])
+                listNameAndFlag[i].appendChild(images[i])
+                listNameAndFlag[i].appendChild(names[i])
+                listNameAndFlag[i].setAttribute('style', 'display: flex; align-items:center; margin-bottom: -25px;')
+                population[i] = document.createElement('p');
+                population[i].textContent = allObjectsSorted[i].name + ' has a total population of: ' + allObjectsSorted[i].population + ' people!';
+                listPopulation[i] = document.createElement('li');
+                list1.appendChild(listPopulation[i])
+                listPopulation[i].appendChild(population[i]);
+
+
+                region[i] = allObjectsSorted[i].region
+                subregion[i] = allObjectsSorted[i].subregion
+                colorCountriesPerContinent(region, i, subregion)
+            }
+        }
+        makeCountryList();
+
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+
+getCountry(randomCountries)
+
 /* Een functie die alle landen uitprint!!! */
+getAllCountries() 
+
+/* Een korter overzichtelijker geschreven functie die er wat minder mooi geprint uitziet dan de getAllCountries() functie */
+getAllCountriesShort()
